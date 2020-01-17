@@ -1,4 +1,4 @@
-function AddCircAtomicArray(rad, X0, Y0, VX0, VY0, InitDist, Temp, Type)
+function AddCircAtomicArray(radx, rady, X0, Y0, VX0, VY0, InitDist, Temp, Type)
 global C
 global x y AtomSpacing
 global nAtoms
@@ -10,16 +10,16 @@ else
     Mass = Mass1;
 end
 
-L = (2*rad - 1) * AtomSpacing;
-W = (2*rad - 1) * AtomSpacing;
+L = (2*radx - 1) * AtomSpacing;
+W = (2*rady - 1) * AtomSpacing;
 
-xp(1, :) = linspace(-L/2, L/2, 2*rad);
-yp(1, :) = linspace(-W/2, W/2, 2*rad);
+xp(1, :) = linspace(-L/2, L/2, 2*radx);
+yp(1, :) = linspace(-W/2, W/2, 2*rady);
 
 numAtoms = 0;
-for i = 1:2*rad
-    for j = 1:2*rad
-        if xp(i)^2 + yp(j)^2 <= (rad*AtomSpacing)^2
+for i = 1:2*radx
+    for j = 1:2*rady
+        if xp(i)^2 / radx^2 + yp(j)^2 / rady^2 <= AtomSpacing^2;
             numAtoms = numAtoms+1;
             x(nAtoms + numAtoms) = xp(i);
             y(nAtoms  + numAtoms) = yp(j);
