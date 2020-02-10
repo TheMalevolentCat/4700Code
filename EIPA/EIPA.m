@@ -1,23 +1,11 @@
 clear, clc
 
 ny = 50;
-nx = 50;
+nx = 100;
 
 G = sparse(nx*ny, nx*ny);
 delta = 1;
 neqn = @(i, j) j + (i - 1)*ny;
-
-%{
-for m = 1:nx*ny
-    G(m, m) = 1;
-    
-    G(1,m) = 0;
-    G(m,1) = 0;
-    G(m,nx*ny) = 0;
-    G(nx*ny,m) = 0;
-    
-end
-%}
 
 for i = 1:nx
     for j = 1:ny
@@ -28,14 +16,22 @@ for i = 1:nx
         nmy = j - 1 + (i - 1)*ny;
         
         if i == 1 || j == 1 || i == nx || j == ny
-             G(n,n) = 1;
-                        
+            G(n,n) = 1;
+            
+        elseif i > 10 && i < 20 && j > 10 && j < 20
+            G(n,n) = -2 / (delta^2);
+            G(n, npx) = 1 / (delta^2);
+            G(n, nmx) = 1 / (delta^2);
+            G(n, npy) = 1 / (delta^2);
+            G(n, nmy) = 1 / (delta^2);
+            
         else
             G(n,n) = -4 / (delta^2);
             G(n, npx) = 1 / (delta^2);
             G(n, nmx) = 1 / (delta^2);
             G(n, npy) = 1 / (delta^2);
             G(n, nmy) = 1 / (delta^2);
+            
         end
     end
 end
@@ -63,8 +59,8 @@ E7 = zeros(nx, ny);
 E8 = zeros(nx, ny);
 E9 = zeros(nx, ny);
 
-for i = 1:50
-    for j = 1:50
+for i = 1:nx
+    for j = 1:ny
         n = j + (i - 1)*ny;
         E1(i, j) = E(n,1);
         E2(i, j) = E(n,2);
@@ -96,3 +92,5 @@ subplot(3,3,8)
 surf(E8);
 subplot(3,3,9)
 surf(E9);
+
+
